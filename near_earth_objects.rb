@@ -19,9 +19,13 @@ class NearEarthObjects
     JSON.parse(asteroids_list_data(date).body, symbolize_names: true)[:near_earth_objects][:"#{date}"]
   end
 
+  def self.estimated_diameter_feet(date)
+    parsed_asteroids_data(date).map {|astroid| astroid[:estimated_diameter][:feet]}
+  end
+
   def self.find_neos_by_date(date)
-    largest_astroid_diameter = parsed_asteroids_data(date).map do |astroid|
-      astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
+    largest_astroid_diameter = estimated_diameter_feet(date).map do |astroid|
+      astroid[:estimated_diameter_max].to_i
     end.max { |a,b| a<=> b}
 
     total_number_of_astroids = parsed_asteroids_data(date).count

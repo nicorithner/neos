@@ -33,18 +33,19 @@ class NearEarthObjects
     parsed_asteroids_data(date).count
   end
 
-  def self.find_neos_by_date(date)
-    # binding.pry
-    formatted_asteroid_data = parsed_asteroids_data(date).map do |astroid|
+  def self.formatted_asteroid_data(date)
+    parsed_asteroids_data(date).map do |astroid|
       {
         name: astroid[:name],
         diameter: "#{astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i} ft",
         miss_distance: "#{astroid[:close_approach_data][0][:miss_distance][:miles].to_i} miles"
       }
     end
-
+  end
+  
+  def self.find_neos_by_date(date)
     {
-      astroid_list: formatted_asteroid_data,
+      astroid_list: formatted_asteroid_data(date),
       biggest_astroid: largest_astroid_diameter(date),
       total_number_of_astroids: total_number_of_astroids(date)
     }

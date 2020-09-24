@@ -44,8 +44,14 @@ class NearEarthObjectsTest < Minitest::Test
     assert_equal 12, neos_count
   end
 
+  def test_astroids_has_attributes
+    neo = NearEarthObjects.formatted_asteroid_data('2019-03-30')
+    assert_equal "(2019 GD4)", neo.first[:name]
+    assert_equal "61 ft", neo.first[:diameter]
+    assert_equal "911947 miles", neo.first[:miss_distance]
+  end
+
   def test_a_date_returns_a_list_of_neos
-    # skip
     results = NearEarthObjects.find_neos_by_date('2019-03-30')
     assert_equal '(2019 GD4)', results[:astroid_list][0][:name]
   end

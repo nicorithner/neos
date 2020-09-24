@@ -39,6 +39,11 @@ class NearEarthObjectsTest < Minitest::Test
     assert_equal 10233, neos_largest
   end
 
+  def test_it_can_find_total_number_of_astroids
+    neos_count = NearEarthObjects.total_number_of_astroids('2019-03-30')
+    assert_equal 12, neos_count
+  end
+
   def test_a_date_returns_a_list_of_neos
     # skip
     results = NearEarthObjects.find_neos_by_date('2019-03-30')

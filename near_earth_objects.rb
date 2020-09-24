@@ -10,12 +10,14 @@ class NearEarthObjects
   def self.conn(date) 
     Faraday.new(url: 'https://api.nasa.gov',params: { start_date: date, api_key: ENV['nasa_api_key']})
   end
-  
-  def self.find_neos_by_date(date)
-    
-    asteroids_list_data = conn(date).get('/neo/rest/v1/feed')
 
-    parsed_asteroids_data = JSON.parse(asteroids_list_data.body, symbolize_names: true)[:near_earth_objects][:"#{date}"]
+  def self.asteroids_list_data(date)
+    conn(date).get('/neo/rest/v1/feed')
+  end
+
+  def self.find_neos_by_date(date)
+
+    parsed_asteroids_data = JSON.parse(asteroids_list_data(date).body, symbolize_names: true)[:near_earth_objects][:"#{date}"]
 
     largest_astroid_diameter = parsed_asteroids_data.map do |astroid|
       astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i

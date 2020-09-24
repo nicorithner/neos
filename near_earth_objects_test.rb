@@ -29,10 +29,16 @@ class NearEarthObjectsTest < Minitest::Test
   end
 
   def test_it_can_find_asteroids_diameter
-    neos = NearEarthObjects.estimated_diameter_feet('2019-03-30')
-    assert_equal Hash, neos.first.class
-    assert_equal 27, neos.first[:estimated_diameter_min].floor
+    neos_diameter = NearEarthObjects.estimated_diameter_feet('2019-03-30')
+    assert_equal Hash, neos_diameter.first.class
+    assert_equal 27, neos_diameter.first[:estimated_diameter_min].floor
   end
+
+  def test_it_can_find_the_largest_astroid
+    neos_largest = NearEarthObjects.largest_astroid_diameter('2019-03-30')
+    assert_equal 10233, neos_largest
+  end
+
   def test_a_date_returns_a_list_of_neos
     # skip
     results = NearEarthObjects.find_neos_by_date('2019-03-30')

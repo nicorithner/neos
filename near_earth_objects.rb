@@ -23,11 +23,14 @@ class NearEarthObjects
     parsed_asteroids_data(date).map {|astroid| astroid[:estimated_diameter][:feet]}
   end
 
-  def self.find_neos_by_date(date)
-    largest_astroid_diameter = estimated_diameter_feet(date).map do |astroid|
+  def self.largest_astroid_diameter(date)
+    estimated_diameter_feet(date).map do |astroid|
       astroid[:estimated_diameter_max].to_i
     end.max { |a,b| a<=> b}
+  end
 
+  def self.find_neos_by_date(date)
+    # binding.pry
     total_number_of_astroids = parsed_asteroids_data(date).count
     formatted_asteroid_data = parsed_asteroids_data(date).map do |astroid|
       {
@@ -39,7 +42,7 @@ class NearEarthObjects
 
     {
       astroid_list: formatted_asteroid_data,
-      biggest_astroid: largest_astroid_diameter,
+      biggest_astroid: largest_astroid_diameter(date),
       total_number_of_astroids: total_number_of_astroids
     }
   end
